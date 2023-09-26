@@ -23,9 +23,7 @@ pipeline {
   
       steps {
         withSonarQubeEnv('SonarQube') {
-                    sh '''   $SonarHome/bin/sonar-scanner -Dsonar.projectName=CICD \
-                        -Dsonar.projectKey=CICD \
-                        -X '''
+                    sh ' cd spring-boot-app && mvn sonar:sonar'
         }
       }
     }
