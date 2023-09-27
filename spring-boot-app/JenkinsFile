@@ -24,7 +24,7 @@ pipeline {
       
       steps {
     
-                  sh ''' mvn sonar:sonar \
+                  sh ''' cd spring-boot-app && mvn sonar:sonar \
                           -Dsonar.url=http://192.168.100.6:9000/ \
                           -Dsonar.login=squ_19cd1f7d095c87f18e6f6e8556466dd7cf4efcaa \
                           -Dsonar.projectKey=test \
