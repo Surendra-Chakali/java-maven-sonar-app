@@ -20,7 +20,9 @@ pipeline {
       }
     }
     stage('Static Code Analysis') {
-  
+      environment{
+        SCANNER_HOME = tool 'sonarqb'
+      }
       steps {
         withSonarQubeEnv('SonarQube') {
                     sh '$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Bank -Dsonar.projectKey=Bank'
