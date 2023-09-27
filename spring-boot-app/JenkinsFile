@@ -21,9 +21,7 @@ pipeline {
       }
     }
     stage('Static Code Analysis') {
-      environment{
-        //SCANNER_HOME = tool 'sonarqb'
-      }
+      
       steps {
     
                   sh ''' mvn sonar:sonar \
