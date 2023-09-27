@@ -5,6 +5,7 @@ pipeline {
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
+
   stages {
     stage('Checkout') {
       steps {
@@ -21,12 +22,17 @@ pipeline {
     }
     stage('Static Code Analysis') {
       environment{
-        SCANNER_HOME = tool 'sonarqb'
+        //SCANNER_HOME = tool 'sonarqb'
       }
       steps {
-        withSonarQubeEnv('SonarQube') {
-                    sh '$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Bank -Dsonar.projectKey=Bank'
-        }
+    
+                  sh ''' mvn sonar:sonar \
+                          -Dsonar.url=http://192.168.100.6:9000/ \
+                          -Dsonar.login=squ_19cd1f7d095c87f18e6f6e8556466dd7cf4efcaa \
+                          -Dsonar.projectKey=test \
+                          -Dsonar.projectName=test
+                     '''
+        
       }
     }
     stage('Build and Push Docker Image') {
