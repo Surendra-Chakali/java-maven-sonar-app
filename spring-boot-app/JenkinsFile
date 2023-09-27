@@ -23,7 +23,8 @@ pipeline {
   
       steps {
         withSonarQubeEnv('SonarQube') {
-                    sh ' cd spring-boot-app && mvn sonar:sonar'
+                    sh '''cd spring-boot-app \
+                          $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Bank -Dsonar.projectKey=Bank '''
         }
       }
     }
