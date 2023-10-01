@@ -2,7 +2,7 @@
 Creating new project which includes tools like Java maven sonar qube for code quality and building image on docker.
 
 
-##### Install docker #####
+#####Install docker#####
 
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -10,7 +10,7 @@ sudo sh get-docker.sh
 ##########
 
 
-#####  Install SonarQube   #####
+#####Install SonarQube#####
 
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
