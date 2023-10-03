@@ -7,6 +7,10 @@ Creating new project which includes tools like Java maven sonar qube for code qu
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 
+systemctl enable docker    //Enable Docker, to be run whenenver server restared
+systemctl start docker    //Start dokcer service
+systemctl status docker  //Check Docker status
+
 ##########
 
 
