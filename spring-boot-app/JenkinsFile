@@ -13,6 +13,7 @@ pipeline {
         //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
       }
     }
+
     stage('Build and Test') {
       steps {
         sh 'ls -ltr'
@@ -20,15 +21,15 @@ pipeline {
         //sh 'cd spring-boot-app && mvn clean package'
       }
     }
+
     stage('Static Code Analysis') {
-      
       steps {
           withSonarQubeEnv('SonarQube') {
-              sh 'cd spring-boot-app && mvn sonar:sonar -Dsonar.projectName=dockerjenkins -Dsonar.projectKey=dockerjenkins'
+              sh 'cd spring-boot-app && mvn sonar:sonar -Dsonar.projectName=dockerjenkins${BUILD_NUMBER} -Dsonar.projectKey=dockerjenkins${BUILD_NUMBER}'
           }
-        
       }
     }
+
     stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "surendra548/jenkinscicd:${BUILD_NUMBER}"
@@ -40,10 +41,14 @@ pipeline {
                   sh 'docker push ${DOCKER_IMAGE}'
               }
           }
-          //sh 'docker logout'
       }
-
+      post{
+          always {
+            sh 'docker logout' 
+            echo "Logged out from Docker Hub"
+          }
       }
+    }
 
 
     }
