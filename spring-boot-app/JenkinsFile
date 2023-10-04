@@ -26,26 +26,23 @@ pipeline {
           withSonarQubeEnv('SonarQube') {
               sh 'cd spring-boot-app && mvn sonar:sonar -Dsonar.projectName=test -Dsonar.projectKey=test'
           }
-                  //sh ''' cd spring-boot-app && mvn sonar:sonar \
-                  //        -Dsonar.url=http://192.168.100.6:9000/ \
-                  //        -Dsonar.login=squ_19cd1f7d095c87f18e6f6e8556466dd7cf4efcaa \
-                  //        -Dsonar.projectKey=test \
-                  //        -Dsonar.projectName=test
-                  //   '''
         
       }
     }
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "practice-cicd:${BUILD_NUMBER}"
-
+        DOCKER_IMAGE = "dockerJenkins-cicd:${BUILD_NUMBER}"
       }
       steps {
-        script {
-            sh 'docker build -t ${DOCKER_IMAGE} spring-boot-app/.'
-
-            }
-        }
+          sh 'docker build -t ${DOCKER_IMAGE} spring-boot-app/.'
+          withDockerRegistry(credentialsId: 'dockerjenkins', url: 'surendra548/jenkinscicd') {
+             sh 'docker push ${DOCKER_IMAGE}'
+          }
+          //sh 'docker logout'
       }
+
+      }
+
+
     }
   }
