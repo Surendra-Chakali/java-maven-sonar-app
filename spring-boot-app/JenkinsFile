@@ -31,7 +31,7 @@ pipeline {
     }
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "dockerJenkins-cicd:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "surendra548/jenkinscicd:${BUILD_NUMBER}"
       }
       steps {
           sh 'docker build -t ${DOCKER_IMAGE} spring-boot-app/.'
