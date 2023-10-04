@@ -24,7 +24,7 @@ pipeline {
       
       steps {
           withSonarQubeEnv('SonarQube') {
-              sh 'cd spring-boot-app && mvn sonar:sonar'
+              sh 'cd spring-boot-app && mvn sonar:sonar -Dsonar.projectName=dockerjenkins -Dsonar.projectKey=dockerjenkins'
           }
         
       }
