@@ -7,18 +7,17 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
+    stage('list all') {
       steps {
-        sh 'echo passed'
-        //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
+          sh 'ls -a'
+         //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
       }
     }
 
     stage('Build and Test') {
       steps {
-        sh 'ls -ltr'
-        // build the project and create a JAR file
-        //sh 'cd spring-boot-app && mvn clean package'
+        //sh 'ls -ltr'
+        sh 'cd spring-boot-app && mvn clean package'
       }
     }
 
@@ -49,7 +48,6 @@ pipeline {
           }
       }
     }
-
 
     }
   }
