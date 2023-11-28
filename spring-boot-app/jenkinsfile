@@ -7,28 +7,23 @@ pipeline {
 
         stage('Code-Build') {
             steps {
-               sh "mvn clean package"
+               sh "cd spring-boot-app && mvn clean package"
             }
         }
 
-        stage('Build Image') {
-            steps {
-                sh 'docker build -t sample:latest .'
-            }
-        }
 
-        stage('Push to Docker') {
-            environment {
-                DOCKER_IMG = "surendra548/jenkinscicd:${BUILD_NUMBER}"
-            }
-            steps{
-                script{
-                    withCredentials([usernameColonPassword(credentialsId: 'dockerCreds', variable: 'dockerCreds')]) {
-                        sh 'docker build -t ${DOCKER_IMG} .'
-                        sh 'docker push ${DOCKER_IMG}'
-                    }
-                }
-            }
+    stage('Build and Push Docker Image') {
+      environment {
+        DOCKER_IMAGE = "surendra548/jenkinscicd:${BUILD_NUMBER}"
+      }
+      steps {
+          script{
+              withDockerRegistry(credentialsId: 'dockerjenkins') {
+                  sh 'docker build -t ${DOCKER_IMAGE} spring-boot-app/.'
+                  sh 'docker push ${DOCKER_IMAGE}'
+              }
+          }
+      }
         }
         
     }
