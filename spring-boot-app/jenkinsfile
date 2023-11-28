@@ -18,7 +18,7 @@ pipeline {
       }
       steps {
           script{
-              withDockerRegistry(credentialsId: 'dockerjenkins') {
+              withCredentials([usernameColonPassword(credentialsId: 'dockerCreds', variable: 'creds')]) {
                   sh 'docker build -t ${DOCKER_IMAGE} spring-boot-app/.'
                   sh 'docker push ${DOCKER_IMAGE}'
               }
