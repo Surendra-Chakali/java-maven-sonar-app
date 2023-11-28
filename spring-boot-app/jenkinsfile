@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    tools{
+        maven 'maven1'
+    }
+    stages {
+
+        stage('Code-Build') {
+            steps {
+               sh "mvn clean package"
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                sh 'docker build -t sample:latest .'
+            }
+        }
+
+        stage('Push to Docker') {
+            environment {
+                DOCKER_IMG = "surendra548/jenkinscicd:${BUILD_NUMBER}"
+            }
+            steps{
+                script{
+                    withCredentials([usernameColonPassword(credentialsId: 'dockerCreds', variable: 'dockerCreds')]) {
+                        sh 'docker build -t ${DOCKER_IMG} .'
+                        sh 'docker push ${DOCKER_IMG}'
+                    }
+                }
+            }
+        }
+        
+    }
+}
